@@ -3,9 +3,9 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
-
+import pickle
 # Load Titanic dataset
-@st.cache
+@st.cache_data 
 def load_data():
     #url = "https://web.stanford.edu/class/archive/cs/cs109/cs109.1166/stuff/titanic.csv"
     data = pd.read_csv('Dataset/train.csv')
@@ -47,7 +47,8 @@ if st.sidebar.checkbox("Train ML Model"):
 
     # Make predictions on the test set
     y_pred = model.predict(X_test)
-
+    # Save the model
+    pickle.dump(model, open('model.pkl', 'wb'))
     # Evaluate accuracy
     accuracy = accuracy_score(y_test, y_pred)
     st.write("Model Accuracy:", accuracy)
